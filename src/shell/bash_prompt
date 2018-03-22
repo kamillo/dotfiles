@@ -107,21 +107,29 @@ set_prompts() {
     local orange=""
     local white=""
     local yellow=""
+    shopt -s checkwinsize
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    if [ "$(tput colors 2> /dev/null || printf "0")" -ge 256 ]; then
+    #if [ "$(tput colors 2> /dev/null || printf "0")" -ge 256 ]; then
 
         # Solarized colors.
         # https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized#the-values
 
-        cyan=$(tput setaf 37)
-        green=$(tput setaf 64)
-        orange=$(tput setaf 166)
-        white=$(tput setaf 15)
-        yellow=$(tput setaf 136)
+    #    cyan=$(tput setaf 37)
+    #    green=$(tput setaf 64)
+    #    orange=$(tput setaf 166)
+    #    white=$(tput setaf 15)
+    #    yellow=$(tput setaf 136)
 
-    fi
+    #fi
+
+    reset='\[\033[00m\]'
+    cyan='\[\033[1;38;5;37m\]'
+    green='\[\033[1;38;5;64m\]'
+    orange='\[\033[1;38;5;166m\]'
+    white='\[\033[1;38;5;15m\]'
+    yellow='\[\033[1;38;5;136m\]'
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -132,17 +140,17 @@ set_prompts() {
     # | PS1 - Default interactive prompt                               |
     # ------------------------------------------------------------------
 
-    PS1="\[\033]0;\W\007\]" # Terminal title (set to the
+    PS1='\[\033]0;\W\007\]' # Terminal title (set to the
                             # current working directory)
 
-    PS1+="$reset$bold"
-    PS1+="$orange\u"        # Username
-    PS1+="$white@"
-    PS1+="$yellow\h"        # Host
-    PS1+="$white: "
-    PS1+="$green\w"         # Working directory
+    PS1+=$reset
+    PS1+=$orange'\u'        # Username
+    PS1+=$white'@'
+    PS1+=$yellow'\h'        # Host
+    PS1+=$white': '
+    PS1+=$green'\w'         # Working directory
     PS1+="\$(get_git_repository_details \"$white@$cyan\")"
-    PS1+="\[$reset\]\[$white\]$ \[$reset\]"
+    PS1+=$reset$white'$ '$reset
 
     export PS1
 
